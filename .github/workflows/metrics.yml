@@ -1,4 +1,4 @@
-name: Metrics Aesthetic Premium
+name: Metrics Professional Layout
 on:
   schedule: [{cron: "0 0 * * *"}]
   workflow_dispatch:
@@ -9,51 +9,44 @@ jobs:
     permissions:
       contents: write
     steps:
+      # 1. METRIKS UTAMA & PENCAPAIAN (Hanya menampilkan Header & Badges)
       - uses: lowlighter/metrics@latest
         with:
+          filename: github-metrics-main.svg
           token: ${{ secrets.METRICS_TOKEN }}
-          user: Hend1kaGH # Sudah disesuaikan dengan GitHub Anda
-          config_timezone: Asia/Jakarta
-          
-          # ==========================================
-          # PENGATURAN TAMPILAN (TEMA MODERN)
-          # ==========================================
+          user: Hendikaaw
           template: classic
-          config_theme: tokyonight # Menggunakan tema Tokyonight yang sangat elegan
-          config_animations: yes
-          
-          # Kita matikan teks statistik bawaan yang terlalu padat di gambar sebelumnya
           base: header, metadata
-          base_indepth: yes
-
-          # ==========================================
-          # VISUAL 1: KALENDER KONTRIBUSI 3D (ISOMETRIC)
-          # ==========================================
-          plugin_isocalendar: yes
-          plugin_isocalendar_duration: half-year
-
-          # ==========================================
-          # VISUAL 2: GRAFIK BAHASA PEMROGRAMAN MODERN
-          # ==========================================
-          plugin_languages: yes
-          plugin_languages_ignored: html, css, tex, less, dockerfile, makefile, shell
-          plugin_languages_details: percentage, lines
-          plugin_languages_sections: most-used
-          plugin_languages_indepth: yes
-          plugin_languages_categories: programming # Hanya menampilkan bahasa pemrograman murni
-
-          # ==========================================
-          # VISUAL 3: DIAGRAM KEBIASAAN NGODING
-          # ==========================================
-          plugin_habits: yes
-          plugin_habits_from: 200
-          plugin_habits_days: 14
-          plugin_habits_facts: yes
-          plugin_habits_charts: yes
-
-          # ==========================================
-          # VISUAL 4: BADGES PENCAPAIAN MINI
-          # ==========================================
+          config_theme: tokyonight
+          config_timezone: Asia/Jakarta
           plugin_achievements: yes
           plugin_achievements_display: compact
           plugin_achievements_secrets: yes
+
+      # 2. KALENDER 3D (Dipisah agar bisa ditaruh di tengah/bawah dengan rapi)
+      - uses: lowlighter/metrics@latest
+        with:
+          filename: github-metrics-isocalendar.svg
+          token: ${{ secrets.METRICS_TOKEN }}
+          user: Hendikaaw
+          template: classic
+          base: ""
+          config_theme: tokyonight
+          plugin_isocalendar: yes
+          plugin_isocalendar_duration: half-year
+
+      # 3. STATISTIK BAHASA PEMROGRAMAN (Grafik Donat / Bar yang Clean)
+      - uses: lowlighter/metrics@latest
+        with:
+          filename: github-metrics-languages.svg
+          token: ${{ secrets.METRICS_TOKEN }}
+          user: Hendikaaw
+          template: classic
+          base: ""
+          config_theme: tokyonight
+          plugin_languages: yes
+          plugin_languages_ignored: html, css, tex, less, dockerfile, makefile, shell
+          plugin_languages_details: percentage
+          plugin_languages_sections: most-used
+          plugin_languages_indepth: yes
+          plugin_languages_categories: programming
