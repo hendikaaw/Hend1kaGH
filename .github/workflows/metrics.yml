@@ -1,0 +1,24 @@
+name: Metrics
+on:
+  # Berjalan otomatis setiap 12 jam
+  schedule: [{cron: "0 */12 * * *"}]
+  # Memungkinkan Anda menjalankan action ini secara manual dari tab Actions
+  workflow_dispatch:
+  # Berjalan otomatis setiap kali Anda melakukan push ke branch main
+  push: {branches: ["master", "main"]}
+jobs:
+  github-metrics:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: lowlighter/metrics@latest
+        with:
+          # Menggunakan token yang sudah kita simpan di Settings tadi
+          token: ${{ secrets.METRICS_TOKEN }}
+
+          # Konfigurasi Dasar
+          user: Hend1kaGH       # GANTI dengan username GitHub Anda
+          template: classic
+          base: header, activity, community, repositories, metadata
+          config_timezone: Asia/Jakarta # Sesuaikan dengan zona waktu Anda
